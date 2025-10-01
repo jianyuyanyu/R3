@@ -22,8 +22,7 @@ jobs:
       file-path: |
         ./src/R3.Unity/Assets/R3.Unity/package.json
         ./src/R3.Godot/addons/R3.Godot/plugin.cfg
-      dotnet-run-path:
-        ./sandbox/ReferenceBuilder/ReferenceBuilder.csproj
+      dotnet-run-path: ./sandbox/ReferenceBuilder/ReferenceBuilder.csproj
       tag: ${{ inputs.tag }}
       dry-run: ${{ inputs.dry-run }}
 
@@ -51,6 +50,7 @@ jobs:
     needs: [update-packagejson, build-dotnet]
     permissions:
       contents: write
+      id-token: write # required for NuGet Trusted Publish
     uses: Cysharp/Actions/.github/workflows/create-release.yaml@main
     with:
       commit-id: ${{ needs.update-packagejson.outputs.sha }}
